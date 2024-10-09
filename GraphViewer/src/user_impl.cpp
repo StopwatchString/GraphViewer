@@ -7,16 +7,18 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
+#include <unordered_map>
 
-std::vector<std::vector<double>> graphs;
+std::unordered_map<std::filesystem::path, std::vector<double>> graphs;
 
-std::vector<double> readCSVToVector(const std::string& filename) {
+std::vector<double> readCSVToVector(const std::filesystem::path& path) {
     std::vector<double> values;
-    std::ifstream file(filename);
+    std::ifstream file(path.c_str());
     std::string line;
 
     if (!file.is_open()) {
-        std::cerr << "Error opening file: " << filename << std::endl;
+        std::cerr << "Error opening file: " << path.filename() << std::endl;
         return values;
     }
 
@@ -53,8 +55,10 @@ void user_glfw_key_callback(GLFWwindow* window, int key, int scancode, int actio
 void user_glfw_drop_callback(GLFWwindow* window, int path_count, const char* paths[])
 {
     for (int i = 0; i < path_count; i++) {
-        std::vector<double> graph = readCSVToVector(paths[i]);
-        graphs.push_back(graph);
+        std::filesystem::path path(paths[i]);
+        if (graphs.find(path) != graphs.end()) continue;
+        std::vector<double> graph = readCSVToVector(path);
+        graphs.emplace(path, graph);
     }
 }
 void user_glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -73,13 +77,14 @@ void user_imgui_render()
         ImGuiWindowFlags_NoMove |
         ImGuiWindowFlags_NoResize |
         ImGuiWindowFlags_NoSavedSettings |
-        ImGuiWindowFlags_NoCollapse);
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
     uint32_t idCount = 0;
-    for (std::vector<double> graph : graphs) {
+    for (std::pair<std::filesystem::path, std::vector<double>> graph : graphs) {
         ImGui::PushID(idCount++);
-        if (ImPlot::BeginPlot("##NoTitle")) {
-            ImPlot::PlotLine("Data", graph.data(), graph.size());
+        if (ImPlot::BeginPlot(graph.first.filename().string().c_str())) {
+            ImPlot::PlotLine("Data", graph.second.data(), graph.second.size());
             ImPlot::EndPlot();
         }
         ImGui::PopID();
