@@ -31,6 +31,12 @@
     <Filter Include="Header Files\KHR">
       <UniqueIdentifier>{8c475f7a-f31d-4064-8d3c-7106b8a4cc7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\DearImgui">
+      <UniqueIdentifier>{ec947cb0-561d-4711-9471-7b15fa387107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DearImgui">
+      <UniqueIdentifier>{18896d48-e541-46d3-a892-444e45d23162}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -69,7 +75,34 @@
     <ClCompile Include="..\extern\glh\src\glad\wgl.c">
       <Filter>Source Files\glad</Filter>
     </ClCompile>
-    <ClCompile Include="src\glfw_utils.cpp">
+    <ClCompile Include="src\DearImgui\imgui_demo.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\imgui_draw.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\imgui_impl_glfw.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\imgui_impl_opengl3.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\imgui_tables.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\imgui_widgets.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\implot.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\implot_items.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DearImgui\imgui.cpp">
+      <Filter>Source Files\DearImgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\user_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,7 +158,40 @@
     <ClInclude Include="..\extern\glh\include\KHR\khrplatform.h">
       <Filter>Header Files\KHR</Filter>
     </ClInclude>
-    <ClInclude Include="include\glfw_utils.h">
+    <ClInclude Include="include\DearImgui\imgui_impl_glfw.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imgui_impl_opengl3.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imgui_impl_opengl3_loader.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imgui_internal.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\implot.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\implot_internal.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imstb_rectpack.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imstb_textedit.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imstb_truetype.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imconfig.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DearImgui\imgui.h">
+      <Filter>Header Files\DearImgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user_impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
