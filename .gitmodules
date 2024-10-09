@@ -1,0 +1,3 @@
+[submodule "extern/glh"]
+	path = extern/glh
+	url = https://github.com/StopwatchString/glh
