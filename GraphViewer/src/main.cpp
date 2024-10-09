@@ -8,13 +8,13 @@
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include "GLFW/glfw3native.h"
+
 #include <windows.h>
+#include <dwmapi.h>
 
 #include <iostream>
-
-// Global variables to track dragging
-static bool g_isDragging = false;
-static double g_lastMouseX, g_lastMouseY;
 
 const uint32_t DEFAULT_WINDOW_WIDTH = 800;
 const uint32_t DEFAULT_WINDOW_HEIGHT = 600;
@@ -45,18 +45,6 @@ void glfw_drop_callback(GLFWwindow* window, int path_count, const char* paths[])
 
 void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-    if (button == GLFW_MOUSE_BUTTON_LEFT)
-    {
-        if (action == GLFW_PRESS)
-        {
-            g_isDragging = true;
-            glfwGetCursorPos(window, &g_lastMouseX, &g_lastMouseY);
-        }
-        else if (action == GLFW_RELEASE)
-        {
-            g_isDragging = false;
-        }
-    }
 
     user_glfw_mouse_button_callback(window, button, action, mods);
 }
@@ -70,7 +58,7 @@ int mainImpl()
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+    //glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
     GLFWwindow* window = glfwCreateWindow(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_NAME, nullptr, nullptr);
     if (window == nullptr) {
         std::cerr << "ERROR glfwCreateWindow()" << std::endl;
@@ -82,6 +70,10 @@ int mainImpl()
     glfwSetMouseButtonCallback(window, glfw_mouse_button_callback);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
+
+    HWND hWnd = glfwGetWin32Window(window);
+    BOOL value = TRUE;
+    HRESULT hr = DwmSetWindowAttribute(hWnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &value, sizeof(value));
 
     // GLH EXTENSION INIT
     if (!glh::utils::loadExtensions(glfwGetProcAddress)) {
@@ -99,11 +91,6 @@ int mainImpl()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460");
 
-    // Our state
-    bool show_demo_window = true;
-    bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
     // MAIN LOOP
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
@@ -114,34 +101,19 @@ int mainImpl()
             continue;
         }
 
-        if (g_isDragging)
-        {
-            double mouseX, mouseY;
-            glfwGetCursorPos(window, &mouseX, &mouseY);
-            int windowX, windowY;
-            glfwGetWindowPos(window, &windowX, &windowY);
-            int newX = windowX + (mouseX - g_lastMouseX);
-            int newY = windowY + (mouseY - g_lastMouseY);
-            glfwSetWindowPos(window, newX, newY);
-        }
-
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
         user_imgui_render();
 
-
-
         // Rendering
         ImGui::Render();
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 
         glfwSwapBuffers(window);
     }

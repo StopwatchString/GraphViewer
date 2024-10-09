@@ -27,15 +27,12 @@ void user_imgui_render()
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->Pos);
     ImGui::SetNextWindowSize(viewport->Size);
-    ImGui::Begin("Fullscreen Window", nullptr,
+    ImGui::Begin("Graph Viewer", nullptr,
+        ImGuiWindowFlags_NoDecoration |
         ImGuiWindowFlags_NoMove |
         ImGuiWindowFlags_NoResize |
         ImGuiWindowFlags_NoSavedSettings |
-        ImGuiWindowFlags_NoBringToFrontOnFocus |
         ImGuiWindowFlags_NoCollapse);
-
-    // Your ImGui content goes here
-    ImGui::Text("Hello, world!");
 
     ImGui::End();
 }
